@@ -1,8 +1,3 @@
-locals {
-  rate_topic_arn       = var.rate_sns_topic_arn != "" ? var.rate_sns_topic_arn : module.rate_alarm_alert_sns.topic_arn
-  volume_sns_topic_arn = var.volume_sns_topic_arn != "" ? var.volume_sns_topic_arn : module.volume_alarm_alert_sns.topic_arn
-}
-
 resource "aws_cloudwatch_metric_alarm" "rate_alarm" {
   count             = module.sfn_error_notification_context.enabled ? 1 : 0
   alarm_name        = "${module.sfn_error_notification_context.id}-rate"
@@ -33,8 +28,8 @@ resource "aws_cloudwatch_metric_alarm" "rate_alarm" {
   comparison_operator = "GreaterThanThreshold"
   threshold           = 0
   treat_missing_data  = "ignore"
-  alarm_actions       = [local.rate_topic_arn]
-  ok_actions          = [local.rate_topic_arn]
+  alarm_actions       = [var.rate_sns_topic_arn]
+  ok_actions          = [var.rate_sns_topic_arn]
   tags                = module.sfn_error_notification_context.tags
 }
 
@@ -54,7 +49,7 @@ resource "aws_cloudwatch_metric_alarm" "volume_alarm" {
   dimensions = {
     QueueName = module.sfn_error_notification_context.id
   }
-  alarm_actions = [local.volume_sns_topic_arn]
-  ok_actions    = [local.volume_sns_topic_arn]
+  alarm_actions = [var.volume_sns_topic_arn]
+  ok_actions    = [var.volume_sns_topic_arn]
   tags          = module.sfn_error_notification_context.tags
 }
