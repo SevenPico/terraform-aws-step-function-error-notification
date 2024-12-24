@@ -8,7 +8,7 @@ module "eventbridge_rule_context" {
 
 resource "aws_cloudwatch_event_rule" "eventbridge_rule" {
   count       = module.sfn_error_notification_context.enabled ? 1 : 0
-  name        = var.eventbridge_rule_name
+  name        = "${module.sfn_error_notification_context.id}-${var.eventbridge_rule_name}"
   description = "Eventbridge rule to route failure events to sqs."
   event_pattern = jsonencode({
     "source" : ["aws.states"],
