@@ -10,8 +10,9 @@ variable "sqs_kms_key_id" {
 }
 
 variable "sqs_queue_name" {
-  description = "Name of the SQS Dead Letter Queue."
+  description = "(Optional) Name of the SQS Dead Letter Queue."
   type        = string
+  default     = null
 }
 
 variable "sqs_message_retention_seconds" {
@@ -27,8 +28,9 @@ variable "sqs_visibility_timeout_seconds" {
 }
 
 variable "eventbridge_rule_name" {
-  description = "Name of the EventBridge Rule."
+  description = "(Optional) Name of the EventBridge Rule."
   type        = string
+  default     = null
 }
 
 variable "alarms_period" {
@@ -50,8 +52,9 @@ variable "alarms_evaluation_periods" {
 }
 
 variable "eventbridge_pipe_name" {
-  description = "The name of the Pipe."
+  description = "(Optional) The name of the Pipe."
   type        = string
+  default     = null
 }
 
 variable "eventbridge_pipe_batch_size" {
@@ -91,6 +94,18 @@ variable "volume_sns_topic_arn" {
 
 variable "sns_kms_key_id" {
   description = "(Optional) Managed key for encryption at rest. Defaults to null."
+  type        = string
+  default     = null
+}
+
+variable "rate_alarm_name" {
+  description = "(Optional) Name of the rate alarm. Defaults to null."
+  type        = string
+  default     = null
+}
+
+variable "volume_alarm_name" {
+  description = "(Optional) Name of the volume alarm. Defaults to null."
   type        = string
   default     = null
 }
