@@ -72,11 +72,11 @@ data "aws_iam_policy_document" "pipe_policy_document" {
 }
 
 module "pipe_role" {
-  source  = "registry.terraform.io/SevenPicoForks/iam-role/aws"
-  version = "2.0.2"
-  context = module.pipe_context.self
+  source     = "registry.terraform.io/SevenPicoForks/iam-role/aws"
+  version    = "2.0.2"
+  context    = module.pipe_context.self
+  attributes = var.eventbridge_pipe_name != null ? [] : ["err", "pipe"]
 
-  name                = "${local.eventbridge_pipe_name}-role"
   assume_role_actions = ["sts:AssumeRole"]
   assume_role_conditions = [
     {
